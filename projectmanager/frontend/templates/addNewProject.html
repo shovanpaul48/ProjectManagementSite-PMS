@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css\aNP_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css\styles.css' %}">
+    <style>
+        .content {
+            padding: 0px;
+            margin-top:0px; 
+        }
+        .h1{
+            color:aqua; 
+        }
+    </style>
+        <div class="container">
+            <h1>Submit Your Project</h1> <button id="themeToggle">Toggle Theme</button>
+            <form action="addNewProject" method="post">
+                <label for="project_title">Project Title:</label>
+                <input type="text" id="project_title" name="project_title" required>
+                
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <label for="links">Link(s):</label>
+                <input type="text" id="links" name="links" required>
+                
+                <label for="images">Image(s):</label>
+                <input type="file" id="images" name="images" accept="image/*" multiple required>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+
+        <script src="{% static 'js/aNP_script.js' %}"></script>
+    {% endblock  %}

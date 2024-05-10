@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+  <!-- New HTML -->
+  <section class="hero-section">
+    <div class="card-grid-new">
+
+      {% for product in projects %}
+        <a href="#" class="card-new">
+          {% comment %} <p  class="card-new"> {% endcomment %}
+          <div class="card__bg-new" style="background-image: url('{{product.imgs.url}}')"></div>
+          <div class="card__content-new">
+            <p class="card__category-new">{{ product.tags }}</p>
+            <h3 class="card__heading-new">{{ product.title }}</h3>
+            <br>
+            <button class="cardbutton">Click Me</button>
+          </div>
+        {% comment %} </p> {% endcomment %}
+        </a>
+      {% endfor %}
+      
+
+    </div>
+
+</div>
+
+{% endblock  %}

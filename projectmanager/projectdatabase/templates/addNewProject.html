@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css\aNP_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css\styles.css' %}">
+    <style>
+        .content {
+            padding: 0px;
+            margin-top:0px; 
+        }
+
+    </style>
+        <div class="container">
+            <h1 style="color:green;"> 
+            {{MSG}}
+            </h1>
+            <h1>Add New Project <button id="themeToggle">Toggle Theme</button> </h1>
+            <form action="{% url 'addNewProject' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                {% comment %} {{ form.as_p }} {% endcomment %}
+                <label for="project_title">Project Title:</label>
+                <input type="text" id="project_title" name="project_title" required>
+                
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <label for="links">Link(s):</label>
+                <input type="text" id="links" name="links" required>
+                
+                <label for="images">Image(s):</label>
+                <input type="file" id="images" name="images" accept="image/*" required>
+                
+                <button type="submit">Submit</button>
+            </form>
+            
+        </div>
+
+
+        <script src="{% static 'js/aNP_script.js' %}"></script>
+    {% endblock  %}

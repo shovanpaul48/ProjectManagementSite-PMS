@@ -1,0 +1,95 @@
+.container {
+    align-items: center;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color:  rgba(202, 198, 198, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition:  0.3s ease;
+    
+    
+}
+.h1{
+    color: rgb(54, 57, 57);
+}
+form {
+    display: flex;
+    flex-direction: column;
+    color: #393939;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input,
+textarea {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #cac7c7;
+    color: #343333;
+}
+
+button {
+    padding: 10px 10px;
+    background-color: #696767;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #858585;
+}
+
+.dark-mode {
+    background-color: #000000;
+    color: rgb(27, 28, 28)
+}
+
+.dark-mode .container {
+    background-color: #000000;
+    backdrop-filter: blur(10px); /* Adds blur effect to background */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+}
+label{
+    color: #393939;
+}
+
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode button {
+    background-color: #343333;
+    color: #fff;
+}
+
+.dark-mode label{
+    color: #cbc5c5;
+}
+.dark-mode .container{
+    background-color:  rgba(35, 36, 42, 0.1);
+}
+
+
+#themeToggle{
+    margin-left: 170px;
+}
+
+
+@media screen and (max-width: 690px) {
+    #themeToggle{
+        margin-left: 10px;
+    }
+    h1{
+        font-size: 20px;
+    }
+    .container{
+        margin: 10px;
+    }
+}
