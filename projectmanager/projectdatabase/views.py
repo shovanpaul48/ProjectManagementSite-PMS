@@ -3,27 +3,23 @@ from django.shortcuts import render,redirect
 from .models import Project
 from .forms import ProjectForm
 import os
-
-
 from django.db.models import Q
+from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
 
 def index(request):
+    if request.method == 'POST':
+        selected_filter = request.POST.get('filter', 'all')
+        if selected_filter == 'all':
+            projects = Project.objects.all()
+        else:
+            projects = Project.objects.filter(tags__icontains=selected_filter)
+        return render(request, 'index.html', {'projects': projects, 'selected_filter': selected_filter})
+
     projects = Project.objects.all()
-    selected_filter = request.POST.get('filter') if request.method == 'POST' else 'all'  # Default to 'all' if no filter selected
-    if selected_filter != 'all':
-        # Filter projects based on case-insensitive substring matching
-        projects = Project.objects.filter(Q(tags__icontains=selected_filter))
-    return render(request, "index.html", {"projects": projects, "selected_filter": selected_filter})
-
-
-# def home(request):
-#     projects = Project.objects.all()
-
-#     return render(request,"index.html", {"projects":projects})
-
-
-from django.shortcuts import render
-from .models import Project
+    return render(request, 'index.html', {'projects': projects, 'selected_filter': 'all'})
 
 def addNewProject(request):
     if request.method == "POST":
@@ -31,8 +27,7 @@ def addNewProject(request):
         tags = request.POST.get("tags")
         description = request.POST.get("description")
         links = request.POST.get("links")
-        
-        # Handle file upload
+        priority = request.POST.get('priority')
         image = request.FILES.get("images")
 
         if image:
@@ -42,7 +37,8 @@ def addNewProject(request):
                 tags=tags,
                 description=description,
                 links=links,
-                imgs=img_file_path  # Save the file path to the Project object
+                imgs=img_file_path,  # Save the file path to the Project object
+                priority = priority
             )
             # Save the uploaded image to the specified path
             project.imgs.save(img_file_path, image)
@@ -51,3 +47,19 @@ def addNewProject(request):
         return render(request, "addNewProject.html", {'MSG': msg })
     else:
         return render(request, "addNewProject.html")
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # user = authenticate(request, username=username, password=password)
+        # if user is not None:
+            # login(request, user)
+        if username=="shovanpaul48" and password=="2024": 
+            return redirect('index')  # Replace 'home' with your desired redirect URL
+        else:
+            messages.error(request, 'Invalid login credentials')
+    return render(request, 'Admin_Login.html')
+
+def ContactMe(request):
+    return render(request, 'ContactPage.html')

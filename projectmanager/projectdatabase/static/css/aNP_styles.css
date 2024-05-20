@@ -24,7 +24,7 @@ label {
 }
 
 input,
-textarea {
+textarea,select,option {
     padding: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
@@ -32,7 +32,9 @@ textarea {
     border: 1px solid #cac7c7;
     color: #343333;
 }
-
+option{
+    color: #343333;
+}
 button {
     padding: 10px 10px;
     background-color: #696767;

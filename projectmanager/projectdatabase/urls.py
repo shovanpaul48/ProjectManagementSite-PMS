@@ -16,5 +16,9 @@ from .views import index
 
 urlpatterns = [
     path('', index, name='index'),
-    path('addNewProject/',views.addNewProject,name="addNewProject")
+    path('AdninLoginPage/',views.login,name="login"),
+    # path('AdninLoginPage/',views.AdninLoginPage,name="AdninLoginPage"),
+    path('addNewProject/',views.addNewProject,name="addNewProject"),
+    path('ContactMe/',views.ContactMe,name="ContactMe"),
 ]
+

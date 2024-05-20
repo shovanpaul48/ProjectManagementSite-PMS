@@ -1,40 +1,34 @@
 {% extends "base.html" %}
-
 {% block content %}
-
-<form id="filterForm" action="{% url 'index' %}" method="post">
-  {% csrf_token %}
-  <div class="content_filter">
-      <input type="radio" name="filter" id="all" value="all" {% if selected_filter == 'all' or not selected_filter %} checked {% endif %}><label for="all">All</label>
-      <input type="radio" name="filter" id="matrix" value="matrix" {% if selected_filter == 'matrix' %} checked {% endif %}><label for="matrix">Matrix</label>
-      <input type="radio" name="filter" id="Python" value="Python" {% if selected_filter == 'Python' %} checked {% endif %}><label for="Python">Python</label>
-      <input type="radio" name="filter" id="devops" value="devops" {% if selected_filter == 'devops' %} checked {% endif %}><label for="devops">DevOps</label>
-      <input type="radio" name="filter" id="43" value="43" {% if selected_filter == '43' %} checked {% endif %}><label for="43">43</label>
-  </div>
+<form id="filterForm" method="post" hx-post="{% url 'index' %}" hx-target="#dynamic-content" hx-swap="outerHTML">
+    {% csrf_token %}
+    <div class="content_filter">
+        <input type="radio" name="filter" id="all" value="all" {% if selected_filter == 'all' or not selected_filter %} checked {% endif %}><label for="all">All</label>
+        <input type="radio" name="filter" id="matrix" value="matrix" {% if selected_filter == 'matrix' %} checked {% endif %}><label for="matrix">Matrix</label>
+        <input type="radio" name="filter" id="Python" value="Python" {% if selected_filter == 'Python' %} checked {% endif %}><label for="Python">Python</label>
+        <input type="radio" name="filter" id="devops" value="devops" {% if selected_filter == 'devops' %} checked {% endif %}><label for="devops">DevOps</label>
+        <input type="radio" name="filter" id="43" value="43" {% if selected_filter == '43' %} checked {% endif %}><label for="43">43</label>
+    </div>
 </form>
 
+<!-- New HTML -->
+<section class="hero-section">
+    <div id="dynamic-content" class="card-grid-new">
+        {% for product in projects %}
+        <a href="#" class="card-new">
+            <div class="card__bg-new" style="background-image: url('{{ product.imgs.url }}')"></div>
+            {% comment %} <img src="{% url 'project_image' project.id %}" alt="Project Image"> {% endcomment %}
 
-
-
-  <!-- New HTML -->
-  <section class="hero-section">
-    <div class="card-grid-new">
-
-      {% comment %} {% for product in projects|slice:":6" %} {% endcomment %}
-      {% for product in projects %}
-      <a href="#" class="card-new">
-        <div class="card__bg-new" style="background-image: url('{{ product.imgs.url }}')"></div>
-        <div class="card__content-new">
-          <p class="card__category-new">{{ product.tags }}</p>
-          <h3 class="card__heading-new">{{ product.title }}</h3>
-          <br>
-          <button class="cardbutton">Click Me</button>
-        </div>
-      </a>
-    {% endfor %}
+            <div class="card__content-new">
+                <p class="card__category-new">{{ product.tags }}</p>
+                <h3 class="card__heading-new">{{ product.title }}</h3>
+                <br>
+                <button class="cardbutton">{{ product.priority }}</button>
+            </div>
+        </a>
+        {% endfor %}
     </div>
-
-</div>
+</section>
 <script>
   // JavaScript to automatically submit the form when a radio button is selected
   const radioButtons = document.querySelectorAll('input[name="filter"]');
@@ -44,6 +38,4 @@
       });
   });
 </script>
-
-{% endblock  %}
-
+{% endblock %}

@@ -12,13 +12,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap">
-
+  <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
+  {% comment %} <script src="https://unpkg.com/htmx.org@1.9.12"></script> {% endcomment %}
+  <script src="https://unpkg.com/htmx.org@1.8.4"></script>
 
   <script src="{% static 'js/script.js' %}" defer></script>
   <style>
     .content {
       flex: 1 0 auto;
-      padding: 20px;
+      padding:0px;
       margin-top: 0px;
       color: white;
       position: relative;
@@ -83,8 +85,8 @@
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="https://shovanpaul48.github.io/MyPortfolio/">Portfolio</a></li>
-            <li><a href="{% url 'addNewProject' %}">Request Quote</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{% url 'login' %}">Admin</a></li>
+            <li><a href="{% url 'ContactMe' %}">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -93,9 +95,9 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a href="{% url 'index' %}">Home</a>
       <a href="#">About</a>
-      <a href="https://shovanpaul48.github.io/MyPortfolio/">Portfolio</a>
-      <a href="{% url 'addNewProject' %}">Request Quote</a>
-      <a href="#">Contact</a>
+      <a href="https://shovanpaul48.github.io/MyPortfolio/" target="_blank">Portfolio</a>
+      <a href="{% url 'login' %}">Admin</a>
+      <a href="{% url 'ContactMe' %}">Contact</a>
       <p style="color: #1c3664; text-align: center">Hubover &copy; 2017</p>
     </div>
   </div>
@@ -120,10 +122,10 @@
             <div class="back">
               <div class="social-media-wrapper">
                 <a href="#" class="social-icon"><i class="fab fa-codepen" aria-hidden="true"></i></a>
-                <a href="https://github.com/shovanpaul48" class="social-icon"><i class="fab fa-github-square" aria-hidden="true"></i></a>
-                <a href="https://www.linkedin.com/in/shovan-sundar-paul-7b6a891b1/" class="social-icon"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                <a href="https://www.instagram.com/shovan__paul/?hl=en#" class="social-icon"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                <a href="https://twitter.com/iamShovan_Paul" class="social-icon">
+                <a href="https://github.com/shovanpaul48" target="_blank" class="social-icon"><i class="fab fa-github-square" aria-hidden="true"></i></a>
+                <a href="https://www.linkedin.com/in/shovan-sundar-paul-7b6a891b1/"  target="_blank" class="social-icon"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/shovan__paul/?hl=en#"  target="_blank" class="social-icon"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://twitter.com/iamShovan_Paul" target="_blank" class="social-icon">
                   <i class="fa fa-twitter-square"></i></a>
               </div>
             </div>
@@ -131,17 +133,26 @@
         </div>
       </div>
     </div>
-    {% block content %}{% endblock %}
+    
+    <div hx-target="this">
+      {% block content %}{% endblock %}
+    </div>
   </div>
 
 {% comment %} FOOTER-------------------------------------------------- {% endcomment %}
-  <footer class="footer"><h4>Footer</h4></footer>
-  <div class="box">
-    <h2>Responsive Box</h2>
-    <p>This box will adjust its width based on the screen size.</p>
-  </div>
+<div class="box">
+  <h2>Responsive Box</h2>
+  <p>This box will adjust its width based on the screen size.</p>
+  <div class="background"></div>
+</div>
+
 
   <script>
+    // Add a random initial animation delay to ensure different starting points for each box
+document.querySelectorAll('.box').forEach(function(box) {
+  var delay = Math.random() * 30; // Random delay between 0 and 30 seconds
+  box.querySelector('.background').style.animationDelay = '-' + delay + 's';
+});
   </script>
 </body>
 </html>
