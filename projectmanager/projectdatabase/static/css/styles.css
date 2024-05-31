@@ -386,6 +386,7 @@ padding: 5px;
   background-color: rgba(0, 0, 0, 0.7); /* Adjust the alpha value (0.7) for transparency */
   padding: 10px;
   box-sizing: border-box;
+  align-content: center;
 }
 
 .background {

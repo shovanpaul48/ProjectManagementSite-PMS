@@ -47,7 +47,7 @@ def addNewProject(request):
         return render(request, "addNewProject.html", {'MSG': msg })
     else:
         return render(request, "addNewProject.html")
-
+'''
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -56,10 +56,29 @@ def login(request):
         # if user is not None:
             # login(request, user)
         if username=="shovanpaul48" and password=="2024": 
-            return redirect('index')  # Replace 'home' with your desired redirect URL
+            # return redirect('index', {'Admin mode'})  # Replace 'home' with your desired redirect URL
+            return redirect('AddNewProject')
         else:
             messages.error(request, 'Invalid login credentials')
     return render(request, 'Admin_Login.html')
+'''
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        # Simulated authentication for demonstration purposes
+        if username == "shovanpaul48" and password == "2024": 
+            # messages.success(request, 'Successful login')
+            return redirect('AddNewProject')
+            
+        else:
+            msg="Invalid login credentials"
+            return render(request, "Admin_Login.html", {'MSG': msg })
+            # messages.error(request, 'Invalid login credentials')
+    
+    return render(request, 'Admin_Login.html')
+
 
 def ContactMe(request):
     return render(request, 'ContactPage.html')

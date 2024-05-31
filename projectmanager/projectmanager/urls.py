@@ -21,7 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("",include('projectdatabase.urls')),
-    path("volume/",include('volume_control.urls')),
+    # path("volume/",include('volume_control.urls')),
 
 ]
 

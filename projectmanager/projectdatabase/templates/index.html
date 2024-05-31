@@ -4,10 +4,10 @@
     {% csrf_token %}
     <div class="content_filter">
         <input type="radio" name="filter" id="all" value="all" {% if selected_filter == 'all' or not selected_filter %} checked {% endif %}><label for="all">All</label>
-        <input type="radio" name="filter" id="matrix" value="matrix" {% if selected_filter == 'matrix' %} checked {% endif %}><label for="matrix">Matrix</label>
         <input type="radio" name="filter" id="Python" value="Python" {% if selected_filter == 'Python' %} checked {% endif %}><label for="Python">Python</label>
-        <input type="radio" name="filter" id="devops" value="devops" {% if selected_filter == 'devops' %} checked {% endif %}><label for="devops">DevOps</label>
-        <input type="radio" name="filter" id="43" value="43" {% if selected_filter == '43' %} checked {% endif %}><label for="43">43</label>
+        <input type="radio" name="filter" id="Java" value="Java" {% if selected_filter == 'Java' %} checked {% endif %}><label for="Java">Java</label>
+        <input type="radio" name="filter" id="Arduino" value="Arduino" {% if selected_filter == 'Arduino' %} checked {% endif %}><label for="Arduino">Arduino</label>
+        <input type="radio" name="filter" id="DevOps" value="DevOps" {% if selected_filter == 'DevOps' %} checked {% endif %}><label for="DevOps">DevOps</label>
     </div>
 </form>
 

@@ -7,12 +7,19 @@
     <title>Admin Login</title>
     <link rel="stylesheet" href="{% static 'css/Admin_Login.css' %}">
 </head>
+
 <body>
+
+
     <div class="box">
         <div class="form">
             <h2>Login</h2>
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
+                <h3 style="color:red;"> 
+                    {{MSG}}
+                </h3>
+
                 <div class="inputBox">
                     <input type="text" name="username" required="required">
                     <span>Username</span>
