@@ -28,6 +28,10 @@ This Project is still **under development**.
 
 
 
+
+
+
+
 ## Screenshots
 
 ![Home](https://github.com/shovanpaul48/ProjectManagementSite-PMS/Images_Projectmanger/home.png)
@@ -36,7 +40,7 @@ This Project is still **under development**.
 
 ![Login Page ](https://github.com/shovanpaul48/ProjectManagementSite-PMS/Images_Projectmanger/login.png)
 
-![Add Project page](https://github.com/shovanpaul48/ProjectManagementSite-PMS/Images_Projectmanger/add_project.png)
+![Add Project page](https://github.com/shovanpaul48/ProjectManagementSite-PMS/blob/main/Images_Projectmanger/add_project.png?raw=true)
 
 ![Contact Page](https://github.com/shovanpaul48/ProjectManagementSite-PMS/Images_Projectmanger/contact.png)
 
