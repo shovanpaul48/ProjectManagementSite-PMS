@@ -84,7 +84,7 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
+'''
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -94,9 +94,27 @@ DATABASES = {
         "HOST": 'localhost'
     }
 }
+'''
+
+import os
+import dj_database_url
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "pmdb_thpj",
+        "USER": "shovan",
+        "PASSWORD": "22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq",
+        "HOST": "dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com",
+        "PORT": "5432",
+    }
+}
+
+DATABASES["default"] = dj_database_url.parse("postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj")
+# postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj
 
 
-# Password validation
+# Password validations
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
