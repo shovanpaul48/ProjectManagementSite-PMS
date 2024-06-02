@@ -22,15 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
-# SECRET_KEY = "django-insecure-gn@v&vp8svr02@j2q3l$0q$3jm=2w$i8ajn4zmdd!mzt#x_8$w"
+SECRET_KEY = "django-insecure-gn@v&vp8svr02@j2q3l$0q$3jm=2w$i8ajn4zmdd!mzt#x_8$w"
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG","False").lower() == "true"
+DEBUG = True
 
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ") 
+# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ") 
 
 # ALLOWED_HOSTS = ['.vercel.app']
 
@@ -117,9 +117,9 @@ DATABASES = {
     }
 }
 
-database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
-# DATABASES["default"] = dj_database_url.parse("postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj")
+# database_url = os.environ.get("DATABASE_URL")
+# DATABASES["default"] = dj_database_url.parse(database_url)
+DATABASES["default"] = dj_database_url.parse("postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj")
 # postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj
 
 
