@@ -20,19 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-
 SECRET_KEY = "django-insecure-gn@v&vp8svr02@j2q3l$0q$3jm=2w$i8ajn4zmdd!mzt#x_8$w"
 
-# SECRET_KEY = os.environ.get("SECRET_KEY")
-
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get("DEBUG","False").lower() == "true"
 DEBUG = True
 
-# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ") 
-
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -91,7 +84,7 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-'''
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -101,29 +94,9 @@ DATABASES = {
         "HOST": 'localhost'
     }
 }
-'''
-
-import os
-import dj_database_url
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "pmdb_thpj",
-        "USER": "shovan",
-        "PASSWORD": "22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq",
-        "HOST": "dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com",
-        "PORT": "5432",
-    }
-}
-
-database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
-# DATABASES["default"] = dj_database_url.parse("postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj")
-# postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj
 
 
-# Password validations
+# Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -157,14 +130,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-# STATIC_URL = "/static/"
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'frontend', 'build', 'static')
-# ]
-
-STATICFILES_DIRS = os.path.join(BASE_DIR,'static'),
-STATIC_ROT = os.path.join(BASE_DIR,'staticfiles_build','static')
-
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
