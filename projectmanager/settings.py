@@ -105,7 +105,9 @@ DATABASES = {
 renderDatabase = "postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj"
 import dj_database_url
 
-DATABASES["default"] = dj_database_url.parse(renderDatabase)
+# DATABASES["default"] = dj_database_url.parse(renderDatabase)
+
+DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 
 
