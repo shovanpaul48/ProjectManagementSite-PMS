@@ -11,21 +11,26 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = "django-insecure-gn@v&vp8svr02@j2q3l$0q$3jm=2w$i8ajn4zmdd!mzt#x_8$w"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+# DEBUG = True
+# ALLOWED_HOSTS = ["*"]
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "")
+#### For Render SetUp
+# DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
+DEBUG = False
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Application definition
 
@@ -42,7 +47,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -56,7 +60,7 @@ ROOT_URLCONF = "projectmanager.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR,"templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -70,13 +74,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "projectmanager.wsgi.application"
-ASGI_APPLICATION = "projectmanager.asgi.application"
+
+ASGI_APPLICATION = 'projectmanager.asgi.application'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
         },
     },
 }
@@ -84,9 +89,31 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+###### LOCAL POSTGRESQL DATABASE #########################
 DATABASES = {
-    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": 'projectData',
+        "USER": 'postgres',
+        "PASSWORD": '2024',
+        "HOST": 'localhost'
+    }
 }
+
+####### RENDER -POSTGRESQL CONNECTION ###################### 
+'''for this install -- > pip install dj-database-url ✅
+    NOT THIS -------> pip install dj_database_url ❌'''
+
+
+renderDatabase = "postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj"
+import dj_database_url
+
+# DATABASES["default"] = dj_database_url.parse(renderDatabase)
+
+DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -106,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -117,23 +145,26 @@ USE_I18N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Additional locations of static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
 ]
-
-# Whitenoise configuration
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
