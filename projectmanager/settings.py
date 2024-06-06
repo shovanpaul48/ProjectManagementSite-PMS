@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-gn@v&vp8svr02@j2q3l$0q$3jm=2w$i8ajn4zmdd!mzt#x_8$w
 
 #### For Render SetUp
 # DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ["*"]
 # SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -54,6 +55,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
 
 ROOT_URLCONF = "projectmanager.urls"
 
@@ -153,6 +156,17 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+STATIC_URL = '/static/'
+
+# This production code might break development mode, so we check whether we're in DEBUG mode
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term
+    #  caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Additional locations of static files
