@@ -85,6 +85,8 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+###### LOCAL POSTGRESQL DATABASE #########################
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -94,6 +96,17 @@ DATABASES = {
         "HOST": 'localhost'
     }
 }
+
+####### RENDER -POSTGRESQL CONNECTION ###################### 
+'''for this install -- > pip install dj-database-url ✅
+    NOT THIS -------> pip install dj_database_url ❌'''
+
+
+renderDatabase = "postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj"
+import dj_database_url
+
+DATABASES["default"] = dj_database_url.parse(renderDatabase)
+
 
 
 # Password validation
