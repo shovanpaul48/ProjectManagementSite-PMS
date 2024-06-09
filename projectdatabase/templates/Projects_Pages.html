@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<style>
+    .image__box{
+        height:400px;
+        width:400px;
+    }
+</style>
+
+<body>
+    <div class = "image__box" style="background-image: url('{{ project.imgs.url }}')"></div>
+    <h1>{{ project.title }}</h1>
+    <p>Project ID: {{ project.id }}</p>
+    <p>Tags: {{ project.tags }}</p>
+    <p>{{ project.description}}</p>
+<body>
+
+{% endblock %}

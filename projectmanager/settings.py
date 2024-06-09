@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +44,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cloudinary_storage",
+    "cloudinary",
     "projectdatabase",
     "channels",
 ]
@@ -110,11 +115,13 @@ DATABASES = {
 
 
 renderDatabase = "postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj"
+# postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a.oregon-postgres.render.com/pmdb_thpj
+# postgres://shovan:22PXn8XwGmfmxZpMDqfVt5XrlIMumxtq@dpg-cpdc3v7sc6pc738rbc10-a/pmdb_thpj
 import dj_database_url
 
-# DATABASES["default"] = dj_database_url.parse(renderDatabase)
+DATABASES["default"] = dj_database_url.parse(renderDatabase)
 
-DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
+# DATABASES["default"] = dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 
 
@@ -156,7 +163,6 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-STATIC_URL = '/static/'
 
 # This production code might break development mode, so we check whether we're in DEBUG mode
 if not DEBUG:
@@ -182,3 +188,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# import env
+
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': env('CLOUD_NAME'),
+#     'API_KEY': env('CLOUD_API_KEY'),
+#     'API_SECRET': env('CLOUD_API_SECRET')
+# }
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dybf6f8gq',
+    'API_KEY': '347962827317641',
+    'API_SECRET': 'dLzewnRieWlbfD47MjiR1sA-hZ0'
+}

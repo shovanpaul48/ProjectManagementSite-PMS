@@ -1,0 +1,59 @@
+
+{% block content %}
+<h1> Hello World </h1>
+<form id="filterForm" method="post" hx-post="{% url 'index' %}" hx-target="#dynamic-content" hx-swap="outerHTML">
+    {% csrf_token %}
+    <div class="content_filter">
+        <input type="radio" name="filter" id="all" value="all" {% if selected_filter == 'all' or not selected_filter %} checked {% endif %}><label for="all">All</label>
+        <input type="radio" name="filter" id="Python" value="Python" {% if selected_filter == 'Python' %} checked {% endif %}><label for="Python">Python</label>
+        <input type="radio" name="filter" id="Java" value="Java" {% if selected_filter == 'Java' %} checked {% endif %}><label for="Java">Java</label>
+        <input type="radio" name="filter" id="Arduino" value="Arduino" {% if selected_filter == 'Arduino' %} checked {% endif %}><label for="Arduino">Arduino</label>
+        <input type="radio" name="filter" id="DevOps" value="DevOps" {% if selected_filter == 'DevOps' %} checked {% endif %}><label for="DevOps">DevOps</label>
+    </div>
+</form>
+
+<!-- New HTML -->
+<section class="hero-section">
+    <div id="dynamic-content" class="card-grid-new">
+        {% for project in projects %}
+        <a href="{% url 'ProjectsPage' project.id %}" class="card-new">
+            <div class="card__bg-new" style="background-image: url('{{ project.imgs.url }}')"></div>
+            {% comment %} <img src="{% url 'project_image' project.id %}" alt="Project Image"> {% endcomment %}
+
+            <div class="card__content-new">
+                <h1 class="card__heading-new" style="color:red;">{{ project.id }}</h1>
+                <p class="card__category-new">{{ project.tags }}</p>
+                <h3 class="card__heading-new">{{ project.title }}</h3>
+                <br>
+                <button class="cardbutton">{{ project.priority }}</button>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+<script>
+  // JavaScript to automatically submit the form when a radio button is selected
+  const radioButtons = document.querySelectorAll('input[name="filter"]');
+  radioButtons.forEach(function(radioButton) {
+      radioButton.addEventListener('change', function() {
+          document.getElementById('filterForm').submit();
+      });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card-new');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the anchor tag
+            
+            const project_id= this.querySelector('.card__heading-new').textContent; // Assuming product ID is inside the card heading
+
+            // Redirect to the new page with the product ID
+            window.location.href = `/ProjectsPage/${project_id}`;
+        });
+    });
+});
+
+</script>
+{% endblock %}

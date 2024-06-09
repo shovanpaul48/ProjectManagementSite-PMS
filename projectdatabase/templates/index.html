@@ -14,16 +14,17 @@
 <!-- New HTML -->
 <section class="hero-section">
     <div id="dynamic-content" class="card-grid-new">
-        {% for product in projects %}
-        <a href="#" class="card-new">
-            <div class="card__bg-new" style="background-image: url('{{ product.imgs.url }}')"></div>
+        {% for project in projects %}
+        <a href="{% url 'ProjectsPage' project.id %}" class="card-new">
+            <div class="card__bg-new" style="background-image: url('{{ project.imgs}}')"></div>
             {% comment %} <img src="{% url 'project_image' project.id %}" alt="Project Image"> {% endcomment %}
 
             <div class="card__content-new">
-                <p class="card__category-new">{{ product.tags }}</p>
-                <h3 class="card__heading-new">{{ product.title }}</h3>
+                <h1 class="card__heading-new" style="color:red;">{{ project.id }}</h1>
+                <p class="card__category-new">{{ project.tags }}</p>
+                <h3 class="card__heading-new">{{ project.title }}</h3>
                 <br>
-                <button class="cardbutton">{{ product.priority }}</button>
+                <button class="cardbutton">{{ project.priority }}</button>
             </div>
         </a>
         {% endfor %}
@@ -37,5 +38,21 @@
           document.getElementById('filterForm').submit();
       });
   });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card-new');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent the default behavior of the anchor tag
+            
+            const project_id= this.querySelector('.card__heading-new').textContent; // Assuming product ID is inside the card heading
+
+            // Redirect to the new page with the product ID
+            window.location.href = `/ProjectsPage/${project_id}`;
+        });
+    });
+});
+
 </script>
 {% endblock %}

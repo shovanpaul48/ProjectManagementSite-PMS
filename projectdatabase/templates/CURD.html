@@ -1,0 +1,584 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    {% comment %} <link rel="stylesheet" href="{% static 'css\styles.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css\aNP_styles.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css\styles.css' %}"> {% endcomment %}
+
+    <style>
+        .container {
+            align-items: center;
+            max-width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(35, 36, 42, 0.1);;
+            /* background-color:  rgba(202, 198, 198, 0.8); */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition:  0.3s ease;
+            
+            
+        }
+        .h1{
+            color: rgb(54, 57, 57);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            color: #393939;
+        }
+        
+        label {
+            margin-top: 10px;
+        }
+        
+        input,
+        textarea,select,option {
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #cac7c7;
+            color: #343333;
+        }
+        option{
+            color: #343333;
+        }
+        button {
+            padding: 10px 10px;
+            background-color: #696767;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #858585;
+        }
+        
+        .dark-mode {
+            background-color: #000000;
+            color: rgb(27, 28, 28)
+        }
+        
+        .dark-mode .container {
+            background-color: #000000;
+            backdrop-filter: blur(10px); /* Adds blur effect to background */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+        }
+        label{
+            color: #393939;
+        }
+        
+        
+        .dark-mode input,
+        .dark-mode textarea,
+        .dark-mode button {
+            background-color: #343333;
+            color: #fff;
+        }
+        
+        .dark-mode label{
+            color: #cbc5c5;
+        }
+        .dark-mode .container{
+            background-color:  rgba(35, 36, 42, 0.1);
+        }
+        
+        
+        #themeToggle{
+            margin-left: 170px;
+        }
+        
+        
+        @media screen and (max-width: 690px) {
+            #themeToggle{
+                margin-left: 10px;
+            }
+            h1{
+                font-size: 20px;
+            }
+            .container{
+                margin: 10px;
+            }
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .nav-bar button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-bar button:hover, .nav-bar button.active {
+            background-color: #555;
+        }
+        .section {
+            display:none;
+        }
+        .section.active {
+            display: block;
+        }
+        table {
+            width: 100%; /* Adjusted to 100% to utilize the full width */
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid #444;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #333;
+            color: white; /* Add this to make the header text visible */
+        }
+        
+        .wide-column {
+            width: 200px; /* Width for the Project Description column */
+        }
+        
+        .delete-icon {
+            color: red;
+            cursor: pointer;
+        }
+        .delete-icon:hover {
+            color: darkred;
+        }
+        .btn-delete-selected {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-delete-selected:hover {
+            background-color: darkred;
+        }
+
+        .section .DeleteDiv{
+            width:100%;
+            padding:30px;
+        }
+    </style>
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .popup-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    
+    <div class="container">
+        <div class="nav-bar">
+            <button id="createBtn" class="{% if active_section == 'create' %}active{% endif %}">CREATE</button>
+            <button id="readBtn" class="{% if active_section == 'read' %}active{% endif %}">READ</button>
+            <button id="updateBtn" class="{% if active_section == 'update' %}active{% endif %}">UPDATE</button>
+            <button id="deleteBtn" class="{% if active_section == 'delete' %}active{% endif %}">DELETE</button>
+        </div>
+    
+        <div id="createSection" class="section {% if active_section == 'create' %}active{% endif %}">
+            <h1>Add New Project</h1>
+            <h3 style="color:green">{{msg}}</h3>
+            <form action="{% url 'AddNewProject' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <label for="project_title">Project Title:</label>
+                <input type="text" id="project_title" name="project_title" required>
+                
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <label for="links">Link(s):</label>
+                <input type="text" id="links" name="links" required>
+                
+                <label for="images">Image(s):</label>
+                <input type="file" id="images" name="images" accept="image/*" required>
+                
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority">
+                    <option value="H">High</option>
+                    <option value="M">Medium</option>
+                    <option value="L">Low</option>
+                </select><br>
+    
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    
+        <div id="readSection" class="section {% if active_section == 'read' %}active{% endif %}">
+            <h1>Read Projects</h1>
+            <div id="readContent"></div>
+        </div>
+    
+        <div id="updateSection" class="section {% if active_section == 'update' %}active{% endif %}">
+            <h1>Update Projects</h1>
+            <h3 style="color:green">{{ update_msg }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project ID</th>
+                        <th>Project Title</th>
+                        <th class="wide-column">Project Description</th>
+                        <th>Project Tags</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td>{{ project.id }}</td>
+                        <td><a href="{{ project.links }}" target="_blank">{{ project.title }}</a></td>
+                        <td class="wide-column">{{ project.description }}</td>
+                        <td>{{ project.tags }}</td>
+                        <td>
+                            <span class="update-icon" onclick="openUpdateForm('{{ project.id }}', '{{ project.title }}', '{{ project.description }}', '{{ project.tags }}')">✏️</span>
+                            <span id="update-msg-{{ project.id }}" style="color:green;"></span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Update Form Popup -->
+        <div id="updateFormPopup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closeUpdateForm()">&times;</span>
+                <h2>Update Project</h2>
+                <form id="updateForm" action="{% url 'update_project' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="update-project-id" name="project_id">
+                    <div>
+                        <label for="update-title">Title:</label>
+                        <input type="text" id="update-title" name="title" required>
+                    </div>
+                    <div>
+                        <label for="update-description">Description:</label>
+                        <textarea id="update-description" name="description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="update-tags">Tags:</label>
+                        <input type="text" id="update-tags" name="tags" required>
+                    </div>
+                    <button type="submit">Update Project</button>
+                </form>
+            </div>
+        </div>
+        
+    
+        <div id="deleteSection" class="section {% if active_section == 'delete' %}active{% endif %}">
+            <div class="DeleteDiv">
+                <h1>Delete Projects</h1>
+                <h3 style="color:red">{{msg}}</h3>
+                <form action="{% url 'delete_selected_projects' %}" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Project ID</th>
+                                <th>Project Title</th>
+                                <th class="wide-column">Project Description</th>
+                                <th>Project Tags</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in projects %}
+                            <tr data-project-id="{{ project.id }}">
+                                <td><input type="checkbox" name="selected_projects" value="{{ project.id }}"></td>
+                                <td>{{ project.id }}</td>
+                                <td><a href="{{ project.links }}" target="_blank">{{ project.title }}</a></td>
+                                <td class="wide-column">{{ project.description }}</td>
+                                <td>{{ project.tags }}</td>
+                                <td>
+                                    <span class="delete-icon" onclick="deleteProject('{{ project.id }}')">🗑️</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        
+                    </table>
+                    <button type="submit" class="btn-delete-selected">Delete Selected Projects</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const createBtn = document.getElementById('createBtn');
+        const readBtn = document.getElementById('readBtn');
+        const updateBtn = document.getElementById('updateBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+    
+        const createSection = document.getElementById('createSection');
+        const readSection = document.getElementById('readSection');
+        const updateSection = document.getElementById('updateSection');
+        const deleteSection = document.getElementById('deleteSection');
+    
+        createBtn.addEventListener('click', () => {
+            setActiveSection(createBtn, createSection);
+        });
+    
+        readBtn.addEventListener('click', () => {
+            setActiveSection(readBtn, readSection);
+            loadReadContent();
+        });
+    
+        updateBtn.addEventListener('click', () => {
+            setActiveSection(updateBtn, updateSection);
+        });
+    
+        deleteBtn.addEventListener('click', () => {
+            setActiveSection(deleteBtn, deleteSection);
+        });
+    
+        function setActiveSection(button, section) {
+            document.querySelectorAll('.nav-bar button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+    
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            section.classList.add('active');
+        }
+    
+        function deleteProject(projectId) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                fetch(`/delete_project/${projectId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Failed to delete project');
+                    }
+                });
+            }
+        }
+    
+        function loadReadContent() {
+            // Implement this function to load the read content dynamically if necessary
+        }
+    </script>
+    <script>
+        function openUpdateForm(id, title, description, tags) {
+            document.getElementById('update-project-id').value = id;
+            document.getElementById('update-title').value = title;
+            document.getElementById('update-description').value = description;
+            document.getElementById('update-tags').value = tags;
+            document.getElementById('updateFormPopup').style.display = 'block';
+        }
+    
+        function closeUpdateForm() {
+            document.getElementById('updateFormPopup').style.display = 'none';
+        }
+    
+        document.getElementById('updateForm').onsubmit = function(e) {
+            e.preventDefault();
+            var form = this;
+            var id = document.getElementById('update-project-id').value;
+            var formData = new FormData(form);
+    
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': form.querySelector('input[name="csrfmiddlewaretoken"]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('update-msg-' + id).innerText = 'Project updated';
+                    closeUpdateForm();
+                } else {
+                    alert('Error updating project');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    </script>
+    <script>
+        function deleteProject(projectId) {
+            fetch(`/delete_project/${projectId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('msg').innerText = data.msg;
+                    // Optionally, remove the project row from the table
+                    document.querySelector(`tr[data-project-id="${projectId}"]`).remove();
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        document.querySelector('form[action="{% url "delete_selected_projects" %}"]').onsubmit = function(e) {
+            e.preventDefault();
+            var form = this;
+            var formData = new FormData(form);
+    
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('msg').innerText = data.msg;
+                    // Optionally, remove the selected project rows from the table
+                    document.querySelectorAll('input[name="selected_projects"]:checked').forEach(function(checkbox) {
+                        document.querySelector(`tr[data-project-id="${checkbox.value}"]`).remove();
+                    });
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    <script>
+        function deleteProject(projectId) {
+            fetch(`/delete_project/${projectId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('msg').innerText = data.msg;
+                    // Remove the project row from the table
+                    const row = document.querySelector(`tr[data-project-id="${projectId}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    
+        document.querySelector('form[action="{% url "delete_selected_projects" %}"]').onsubmit = function(e) {
+            e.preventDefault();
+            var form = this;
+            var formData = new FormData(form);
+    
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('msg').innerText = data.msg;
+                    // Remove the selected project rows from the table
+                    document.querySelectorAll('input[name="selected_projects"]:checked').forEach(function(checkbox) {
+                        const row = document.querySelector(`tr[data-project-id="${checkbox.value}"]`);
+                        if (row) {
+                            row.remove();
+                        }
+                    });
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    
+    
+{% endblock %}
