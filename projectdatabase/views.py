@@ -7,10 +7,13 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
+from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect
 from .models import Project
 from cloudinary.uploader import upload
+import cloudinary 
+
 
 def index2(request):
     render(request,'index2.html')
@@ -30,7 +33,6 @@ def index(request):
 def ProjectsPage(request,project_id):
     project = Project.objects.get(id=project_id)
     return render(request, 'Projects_Pages.html',{'project': project})
-
 
 
 def addNewProject(request):
@@ -148,61 +150,12 @@ def CURD(request):
     return render(request, 'CURD.html',{'projects': projects})
 
 
-
-
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
-from .models import Project
-
 def project_management(request):
     projects = Project.objects.all()
     return render(request, 'project_management.html', {'projects': projects})
 
 
-
-
-"""########### DELETE #####################################
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from .models import Project
-import cloudinary.uploader
-
-def get_public_id_from_url(url):
-    return url.split('/')[-1].split('.')[0]
-
-@require_http_methods(["DELETE"])
-def delete_project(request, project_id):
-    try:
-        project = Project.objects.get(id=project_id)
-        if project.image_url:
-            # Delete the image from Cloudinary using the public ID extracted from the URL
-            public_id = get_public_id_from_url(project.image_url)
-            cloudinary.uploader.destroy(public_id)
-        project.delete()
-        msg = str(project_id) + " DELETED"
-        response_data = {'success': True, 'msg': msg}
-    except Project.DoesNotExist:
-        response_data = {'success': False, 'msg': 'Project not found'}
-    return JsonResponse(response_data)
-
-@require_http_methods(["POST"])
-def delete_selected_projects(request):
-    project_ids = request.POST.getlist('selected_projects')
-    projects = Project.objects.filter(id__in=project_ids)
-    for project in projects:
-        if project.image_url:
-            # Delete the image from Cloudinary using the public ID extracted from the URL
-            public_id = get_public_id_from_url(project.image_url)
-            cloudinary.uploader.destroy(public_id)
-    deleted_count = projects.delete()[0]
-    if deleted_count > 0:
-        msg = ",".join(project_ids) + " DELETED"
-        response_data = {'success': True, 'msg': msg}
-    else:
-        response_data = {'success': False, 'msg': 'No projects deleted'}
-    return JsonResponse(response_data)
-
-"""
+############## DELETE #######################################
 
 def delete_image_from_cloudinary(image_url):
     # Extract the public ID from the Cloudinary URL
